@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c1a55871-19e9-4db3-b5a8-36b03853cd4a" name="Changes" comment="first commit">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Solution2/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entities/Comment.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entities/Entities.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entities/Post.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entities/User.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InMemoryRepositories/CommentInMemoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InMemoryRepositories/InMemoryRepositories.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InMemoryRepositories/PostInMemoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InMemoryRepositories/UserInMemoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RepositoryContracts/ICommentRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RepositoryContracts/IPostRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RepositoryContracts/IUserRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RepositoryContracts/RepositoryContracts.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solution2.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment1DNP_AC.sln" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Entities/Comment.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Entities/Post.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Entities/User.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2les3CXc8EdUFaI6Oev4azhoWIl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Andreea/RiderProjects/Solution2/Entities",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c1a55871-19e9-4db3-b5a8-36b03853cd4a" name="Changes" comment="" />
+      <created>1725551674489</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1725551674489</updated>
+      <workItem from="1725551675656" duration="6972000" />
+    </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <option name="closed" value="true" />
+      <created>1725551722864</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725551722864</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+  </component>
+</project>
