@@ -6,7 +6,7 @@ namespace InMemoryRepositories;
 public class UserInMemoryRepository: IUserRepository
 {
     List<User> users = new List<User>();
-    public Task<User> AddUser(User user)
+    public Task<User> AddAsync(User user)
     {
         user.ID=users.Any()
             ?users.Max(x => x.ID) + 1
@@ -15,8 +15,9 @@ public class UserInMemoryRepository: IUserRepository
         return Task.FromResult(user);
 
     }
+    
 
-    public Task UpdateUser(int idUser)
+    public Task UpdateAsync(int idUser)
     {
         User? existingUser = users.FirstOrDefault(x => x.ID == idUser);
         if (existingUser != null)
@@ -30,7 +31,7 @@ public class UserInMemoryRepository: IUserRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteUser(int idUser)
+    public Task DeleteAsync(int? idUser)
     {
         User? deletingUser = users.FirstOrDefault(x => x.ID == idUser);
         if (deletingUser != null)
@@ -41,7 +42,7 @@ public class UserInMemoryRepository: IUserRepository
         return Task.CompletedTask;
     }
 
-    public Task<User> GetSingleUser(int idUser)
+    public Task<User> GetSingleAsync(int idUser)
     {
         User? singleUser = users.FirstOrDefault(x => x.ID == idUser);
         if (singleUser != null)
@@ -51,7 +52,7 @@ public class UserInMemoryRepository: IUserRepository
         return Task.FromResult(singleUser);
     }
 
-    public IQueryable<User> GetManyUsers()
+    public IQueryable<User> GetMany()
     {
         return users.AsQueryable();
     }

@@ -7,13 +7,14 @@ public class PostInMemoryRepository : IPostRepository
 {
     List<Post> posts = new List<Post>();
 
-    public Task<Post> AddAsync(Post post)
+    public async Task<Post> AddAsync(Post post)
     {
         post.ID = posts.Any()
             ? posts.Max(p => p.ID) + 1
             : 1;
         posts.Add(post);
-        return Task.FromResult(post);
+        Post created = await Task.FromResult(post);
+        return created;
     }
 
     public Task UpdateAsync(Post post)
@@ -33,7 +34,7 @@ public class PostInMemoryRepository : IPostRepository
     public Task DeleteAsync(int id)
     {
         Post? postToRemove = posts.SingleOrDefault(p => p.ID == id);
-        if (postToRemove != null)
+        if (postToRemove == null)
         {
             throw new InvalidOperationException("Post with ID '{id}'not found");
         }
@@ -42,7 +43,7 @@ public class PostInMemoryRepository : IPostRepository
         return Task.CompletedTask;
     }
 
-    public Task<Post> GetSingleAsync(int id)
+    public async Task<Post> GetSingleAsync(int id)
     {
         Post? postToReturn = posts.SingleOrDefault(p => p.ID == id);
         if (postToReturn == null)
@@ -50,7 +51,8 @@ public class PostInMemoryRepository : IPostRepository
             throw new InvalidOperationException("Post with ID '{id}'not found");
         }
 
-        return Task.FromResult(postToReturn);
+       Post created= await Task.FromResult(postToReturn);
+       return created;
     }
 
     public IQueryable<Post> GetMany()

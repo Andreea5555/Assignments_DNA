@@ -4,10 +4,10 @@ namespace RepositoryContracts;
 
 public interface IUserRepository
 {
-    Task<User> AddUser(User user);
-    Task UpdateUser(int idUser);
-    Task DeleteUser(int idUser);
-    Task<User> GetSingleUser(int idUser);
-    IQueryable<User> GetManyUsers();
+    Task<User> AddAsync(User user);
+    Task UpdateAsync(int idUser);
+    Task DeleteAsync(int? idUser);
+    Task<User> GetSingleAsync(int idUser);
+    IQueryable<User> GetMany();
 
 }

@@ -5,7 +5,7 @@ namespace InMemoryRepositories;
 
 public class CommentInMemoryRepository: ICommentRepository
 { List <Comment> comments = new();
-    public Task<Comment> CreateComment(Comment comment)
+    public Task<Comment> CreateAsync(Comment comment)
     {
         comment.ID = comments.Any()
             ? comments.Max(x => x.ID) + 1
@@ -15,7 +15,7 @@ public class CommentInMemoryRepository: ICommentRepository
 
     }
 
-    public Task UpdateComment(Comment comment)
+    public Task  UpdateAsync(Comment comment)
     {
         Comment? existingComment = comments.FirstOrDefault(x => x.ID == comment.ID);
         if (existingComment != null)
@@ -28,7 +28,7 @@ public class CommentInMemoryRepository: ICommentRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteComment(int commentId)
+    public Task DeleteAsync(int commentId)
     {
         Comment? deletedcomment = comments.FirstOrDefault(x => x.ID == commentId);
         if (deletedcomment != null)
@@ -39,7 +39,7 @@ public class CommentInMemoryRepository: ICommentRepository
         return Task.CompletedTask;
     }
 
-    public Task<Comment> GetComment(int commentId)
+    public Task<Comment> GetSingleAsync(int commentId)
     {
         Comment? GetComment = comments.FirstOrDefault(x => x.ID == commentId);
         if (GetComment != null)
@@ -49,7 +49,7 @@ public class CommentInMemoryRepository: ICommentRepository
         return Task.FromResult(GetComment);
     }
 
-    public IQueryable<Comment> GetManyComments()
+    public IQueryable<Comment> GetMany()
     {
         return comments.AsQueryable();
     }
