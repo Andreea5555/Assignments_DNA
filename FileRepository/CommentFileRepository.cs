@@ -78,4 +78,11 @@ public class CommentFileRepository:ICommentRepository
         List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
         return comments.AsQueryable();
     }
+
+    public List<Comment> GetAll()
+    {
+        string commentsAsJson = File.ReadAllTextAsync(filePath).Result;
+        List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
+        return comments;
+    }
 }
