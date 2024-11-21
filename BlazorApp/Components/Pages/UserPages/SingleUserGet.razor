@@ -1,0 +1,28 @@
+﻿@page "/SingleUserGet"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IUserService UserService
+@rendermode InteractiveServer
+
+<h3>Get a single user </h3>
+<div>
+    <label>Please insert the id of the user you would like to see</label>
+    <input type="number" @bind="id"/>
+    <button class="user-name" @onclick="GetSingleUser">Get User</button>
+    @if(user!=null){
+        <div class="user-box">
+            <label class="user-name">@user.UserName</label>
+        </div>
+    }
+</div>
+@code {
+    private int id;
+    private UserDto user;
+
+    public async void GetSingleUser()
+    {
+       user= await UserService.GetSingleUserAsync(id);
+    }
+
+}

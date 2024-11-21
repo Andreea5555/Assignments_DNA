@@ -33,15 +33,16 @@ public class PostsController: ControllerBase
     public async Task<IResult> UpdatePost([FromRoute] int id,[FromBody] CreatePostDto request)
     {
         Post post=new(request.Title, request.Body, request.UserId);
+        post.ID = id;
         await postRepo.UpdateAsync(post);
-        return Results.NoContent();
+        return Results.Json(post);
     }
     
     [HttpDelete("{id}")]
-    public async Task<IResult> DeletePost([FromBody]int postID)
+    public async Task<IResult> DeletePost([FromRoute]int id)
     {
-        await postRepo.DeleteAsync(postID);
-        return Results.NoContent();
+        await postRepo.DeleteAsync(id);
+        return Results.Ok();
 
     }
     

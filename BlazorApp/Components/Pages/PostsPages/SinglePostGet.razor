@@ -1,0 +1,27 @@
+﻿@page "/SinglePostGet"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IPostService postService
+@rendermode InteractiveServer
+
+<h3>Get a single post</h3>
+<div>
+    <label>Please give the id of the post you would like to get:</label>
+    <input type="number" @bind="postId" />
+    <button class="user-name" @onclick="GetSingleUser">Get User</button>
+    @if(post!=null){
+    <div class="post-box">
+        <label class="post-title">@post.Title</label>
+    </div>
+    }
+</div>
+@code {
+    private int postId;
+    private CreatePostDto post;
+
+    public async void GetSingleUser()
+    {
+        post= await postService.GetSinglePostAsync(postId);
+    }
+}

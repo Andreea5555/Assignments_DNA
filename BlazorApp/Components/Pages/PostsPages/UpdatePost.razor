@@ -1,0 +1,39 @@
+﻿@page "/UpdatePost"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Mvc
+@using DTOs
+@inject IPostService postService
+@rendermode InteractiveServer
+<h3>Update Posts</h3>
+<div>
+    <label>Please give the new title, the new content and the id of the post</label>
+    <input type="text" @bind="title"/>
+    <input type="text" @bind="content"/>
+    <input type="number" @bind="postId"/>
+    <button class="btn btn-primary" @onclick="PostUpdate">Update Post</button>
+</div>
+
+@code {
+    private string title;
+    private string content;
+    private int postId;
+
+    public async void PostUpdate()
+    {
+        PostDto post = new PostDto()
+        {
+            Title = title,
+            Body = content
+        };
+        try
+        {
+            await postService.UpdatePostAsync(postId, post);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+}

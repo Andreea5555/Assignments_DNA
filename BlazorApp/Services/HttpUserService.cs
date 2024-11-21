@@ -28,40 +28,35 @@ public class HttpUserService : IUserService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> UpdateUserAsync(int id, CreateUserDto request)
+    public async Task UpdateUserAsync(int id, CreateUserDto request)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("users", request);
+            await _httpClient.PutAsJsonAsync($"users/{id}", request);
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
 
-        JsonSerializer.Deserialize<UserDto>(response,
+        JsonSerializer.Deserialize<CreateUserDto>(response,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
     }
 
-    public async Task<IResult> DeleteUserAsync(int id)
+    public async Task DeleteUserAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("users", id);
+            await _httpClient.DeleteAsync($"users/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
-
-        JsonSerializer.Deserialize<UserDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
     }
 
-    public async Task<ActionResult<UserDto>> GetSingleUserAsync(int id)
+    public async Task<UserDto> GetSingleUserAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("users", id);
+            await _httpClient.GetAsync($"users/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -72,18 +67,29 @@ public class HttpUserService : IUserService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> GetAllUsersAsync(string usernameContains)
+    public async Task<IEnumerable<UserDto>> GetAllUsersAsync(string usernameContains)
     {
-        HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("users", usernameContains);
-        string response = await httpResponse.Content.ReadAsStringAsync();
+        string response = null;
+        HttpResponseMessage httpResponse = null;
+        if (usernameContains != null)
+        {  
+            httpResponse =
+                await _httpClient.GetAsync($"users/{ usernameContains}");
+            response = await httpResponse.Content.ReadAsStringAsync();
+        } 
+        else if (usernameContains == null)
+        {
+            httpResponse = await _httpClient.GetAsync("users"); 
+            response = await httpResponse.Content.ReadAsStringAsync();
+        }
+        
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
 
-        JsonSerializer.Deserialize<UserDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
+        return JsonSerializer.Deserialize<IEnumerable<UserDto>>(response,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        
     }
 }

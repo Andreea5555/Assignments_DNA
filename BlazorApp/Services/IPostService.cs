@@ -5,10 +5,10 @@ namespace BlazorApp.Services;
 
 public interface IPostService
 {
-    public Task<ActionResult<CreatePostDto>> CreatePostAsync(CreatePostDto request);
-    public Task<IResult> UpdatePostAsync(int id, CreatePostDto request);
-    public Task<IResult> DeletePostAsync(int id);
-    public Task<ActionResult<CreatePostDto>> GetSinglePostAsync(int id);
-    public Task<IResult> GetAllPostsAsync(string title, int userID);
+    public Task<CreatePostDto> CreatePostAsync(CreatePostDto request);
+    public Task UpdatePostAsync(int id, PostDto request);
+    public Task DeletePostAsync(int id);
+    public Task<CreatePostDto> GetSinglePostAsync(int id);
+    public Task<IEnumerable<CreatePostDto>> GetAllPostsAsync(string title, int userID);
 
 }

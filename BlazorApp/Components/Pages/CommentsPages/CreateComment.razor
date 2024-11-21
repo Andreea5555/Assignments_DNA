@@ -1,0 +1,33 @@
+﻿@page "/CreateComment"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject ICommentService commentService
+@inject IPostService postService
+@rendermode InteractiveServer
+
+<h3>Create a comment</h3>
+<div>
+    <label>Please input the content of the comment, and the id of the post that the comment belongs to</label>
+    <input type="text" @bind="body"/>
+    <input type="number" @bind="postId"/>
+    <button class="btn btn-primary"  @onclick="CreateAComment">Add Comment</button>
+</div>
+@code {
+    private string body;
+    private int postId;
+    private int userId;
+
+    public async void CreateAComment()
+    {
+        CreatePostDto post= await postService.GetSinglePostAsync(postId);
+
+        CreateCommentDto comment = new CreateCommentDto()
+        {
+            Body= body,
+            PostID = postId,
+            UserID = post.UserId
+        };
+        await commentService.CreateCommentAsync(comment);
+    }
+}

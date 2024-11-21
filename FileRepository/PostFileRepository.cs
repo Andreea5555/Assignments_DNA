@@ -36,11 +36,11 @@ public class PostFileRepository : IPostRepository
         if (existingPost == null)
         {
             throw new InvalidOperationException(
-                "Post with ID '{post.ID}'not found");
+                $"Post with ID {post.ID} not found");
         }
 
-        posts.Remove(existingPost);
-        posts.Add(post);
+        existingPost.Title = post.Title;
+        existingPost.Body = post.Body;
         postsAsJson = JsonSerializer.Serialize(posts);
         await File.WriteAllTextAsync(filePath, postsAsJson);
     }
@@ -52,7 +52,7 @@ public class PostFileRepository : IPostRepository
         Post? postToRemove = posts.SingleOrDefault(p => p.ID == id);
         if (postToRemove == null)
         {
-            throw new InvalidOperationException("Post with ID '{id}'not found");
+            throw new InvalidOperationException($"Post with ID '{id}'not found");
         }
 
         posts.Remove(postToRemove);
@@ -67,7 +67,7 @@ public class PostFileRepository : IPostRepository
         Post? postToReturn = posts.SingleOrDefault(p => p.ID == id);
         if (postToReturn == null)
         {
-            throw new InvalidOperationException("Post with ID '{id}'not found");
+            throw new InvalidOperationException($"Post with ID {id} not found");
         }
 
         Post created= await Task.FromResult(postToReturn);

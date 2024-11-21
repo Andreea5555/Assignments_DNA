@@ -1,0 +1,43 @@
+﻿@page "/"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IUserService UserService
+@rendermode InteractiveServer
+
+<PageTitle>User</PageTitle>
+
+<h1>Welcome to the user page.</h1>
+<div>
+   <label for="username">Username:</label>
+   <input type="text" id="username" @bind="username"/>
+
+   <label for="password">Password:</label>
+   <input type="text" id="password" @bind="password"/>
+
+   <button class="btn btn-primary"  @onclick="AddUser">Add User</button>
+   
+</div>
+
+@code
+{
+   private string username = string.Empty;
+   private string password=string.Empty;
+
+   public async void AddUser()
+   {
+      CreateUserDto user = new CreateUserDto
+      {
+         UserName = username,
+         Password = password
+      };
+      try
+      {
+         await UserService.AddUserAsync(user);
+      }
+      catch (Exception e)
+      {
+         Console.WriteLine(e);
+      }
+   }
+}

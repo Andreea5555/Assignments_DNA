@@ -1,0 +1,22 @@
+﻿@page "/DeletePost"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IPostService postService
+@rendermode InteractiveServer
+<h3>Deleting Posts</h3>
+<div>
+    <label>Please insert the id of the post you wish to delete</label>
+    <input type="number" @bind="postId"/>
+    <button class="btn btn-primary align-content-md-center" @onclick="PostDelete">Delete this post</button>
+</div>
+
+@code {
+    private int postId;
+
+    public async void PostDelete()
+    {
+        await postService.DeletePostAsync(postId);
+    }
+
+}

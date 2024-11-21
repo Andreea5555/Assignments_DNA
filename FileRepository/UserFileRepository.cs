@@ -33,10 +33,10 @@ public class UserFileRepository : IUserRepository
         string usersAsJson = await File.ReadAllTextAsync(filePath);
         List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson)!;
         User? existingUser = users.FirstOrDefault(x => x.ID == idUser);
-        if (existingUser != null)
+        if (existingUser == null)
         {
             throw new InvalidOperationException(
-                "User with id 'idUser'does not exist");
+                $"User with id {idUser} does not exist");
         }
 
         users.Remove(existingUser);
@@ -51,13 +51,28 @@ public class UserFileRepository : IUserRepository
         string usersAsJson = await File.ReadAllTextAsync(filePath);
         List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson)!;
         User? deletingUser = users.FirstOrDefault(x => x.ID == idUser);
-        if (deletingUser != null)
+        if (deletingUser == null)
         {
-            throw new InvalidOperationException("User with id 'idUser'does not exist");
+            throw new InvalidOperationException($"User with id {idUser} does not exist");
         }
         users.Remove(deletingUser);
         usersAsJson = JsonSerializer.Serialize(users);
         await File.WriteAllTextAsync(filePath, usersAsJson);
+    }
+
+    public async Task<User?> GetUserByUsernameAsync(string username)
+    {
+         string usersAsJson = await File.ReadAllTextAsync(filePath);
+         List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson)!;
+         foreach (User user in users)
+         {
+             if (user.UserName == username)
+             {
+                 return user;
+             }
+         }
+
+         return null;
     }
 
     public async Task<User> GetSingleAsync(int idUser)
@@ -65,12 +80,10 @@ public class UserFileRepository : IUserRepository
         string usersAsJson = await File.ReadAllTextAsync(filePath);
         List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson)!;
         User? singleUser = users.FirstOrDefault(x => x.ID == idUser);
-        if (singleUser != null)
+        if (singleUser == null)
         {
-            throw new InvalidOperationException("User with id 'idUser' does not exist");
+            throw new InvalidOperationException($"User with id {idUser} does not exist");
         }
-        usersAsJson = JsonSerializer.Serialize(users);
-        await File.WriteAllTextAsync(filePath, usersAsJson);
         return singleUser;
     }
 

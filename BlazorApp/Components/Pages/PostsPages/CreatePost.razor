@@ -1,0 +1,34 @@
+﻿@page "/CreatePost"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IPostService postService
+@rendermode InteractiveServer
+
+<h3>Welcome to create posts</h3>
+<div>
+    <label>Title of post:</label>
+    <input type="text" @bind="title" /> 
+    <label>Content of the post:</label>
+    <input type="text" @bind="content" />
+    <label>Author of post:</label>
+    <input type="number" @bind="userID" />
+    <button class="btn btn-primary"  @onclick="AddPost">Add Post</button>
+</div>
+
+@code {
+    private string title;
+    private string content;
+    private int userID;
+
+    public async void AddPost()
+    {
+        CreatePostDto post = new CreatePostDto()
+        {
+            Title = title,
+            Body= content,
+            UserId = userID
+        };
+        await postService.CreatePostAsync(post);
+    }
+}

@@ -1,0 +1,49 @@
+﻿@page "/GetPosts"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IPostService postService
+@rendermode InteractiveServer
+@inject NavigationManager NavMgr
+
+<h3>Get posts</h3>
+<div>
+    <label>Please add a title or an User id if you would like to search after them</label>
+    <input type="text" @bind="title" />
+    <input type="number" @bind="userId" />
+    <button @onclick="GetAllPosts">Show Posts</button>
+    @foreach (var post in posts)
+    {
+        <div class="user-box">
+            <label class="user-name" @onclick="() => ViewSingleUser(post.id)">@post.Title</label>
+        </div>
+    }
+    @if (!posts.Any())
+    {
+        <label>There are no current users to display</label>
+    }
+
+</div>
+@code {
+    private IEnumerable<CreatePostDto> posts = [];
+    private string title=null;
+    private int userId=0;
+
+    public async Task GetAllPosts()
+    {
+        try
+        {
+            posts = await postService.GetAllPostsAsync(title,userId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    
+    private void ViewSingleUser(int postId)
+    {
+        NavMgr.NavigateTo($"ViewSingleUser/{postId}");
+    }
+    
+}

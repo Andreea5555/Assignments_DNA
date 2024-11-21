@@ -1,0 +1,22 @@
+﻿@page "/UserDelete"
+@using BlazorApp.Services
+@inject IUserService UserService
+@rendermode InteractiveServer
+
+<h3>User Deleting Page</h3>
+<div>
+    <label>Please insert the id of the user you wish to delete:</label>
+    <input type=number @bind="idUser"/>
+</div>
+<div>
+    <button class="btn btn-primary align-content-md-center" @onclick="DeleteUserAsync">Delete this user</button>
+</div>
+
+@code {
+    private int idUser;
+
+    public async Task DeleteUserAsync()
+    {
+        await UserService.DeleteUserAsync(idUser);
+    }
+}

@@ -1,0 +1,39 @@
+﻿@page "/UserUpdate"
+@using BlazorApp.Services
+@using DTOs
+@inject IUserService UserService
+@rendermode InteractiveServer
+<h3>User Update Page</h3>
+<div>
+    <div>
+        <label>Insert the id, the new name of the user and the password</label>
+        <input type="number" id="id" @bind="id"/>
+        <input type="text" id="username" @bind="username"/>
+        <input type="text" id="password" @bind="password"/>
+    </div>
+    @try
+    {
+        <button class="btn btn-primary" @onclick="UpdateUser">Update User</button>
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine();
+    }
+</div>
+
+@code {
+    private string username;
+    private int id;
+    private string password;
+
+    public async Task UpdateUser()
+    {
+        CreateUserDto user = new CreateUserDto
+        {
+            UserName = username,
+            Password = password
+        };
+        await UserService.UpdateUserAsync(id, user);
+    }
+
+}

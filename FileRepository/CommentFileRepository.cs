@@ -33,13 +33,12 @@ public class CommentFileRepository:ICommentRepository
         string commentsAsJson=await File.ReadAllTextAsync(filePath);
         List<Comment> comments=JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
         Comment? existingComment = comments.FirstOrDefault(x => x.ID == comment.ID);
-        if (existingComment != null)
+        if (existingComment == null)
         {
             throw new InvalidOperationException($"The comment with the id '{comment.ID}' does not exist.'");
         }
 
-        comments.Remove(comment);
-        comments.Add(comment);
+        existingComment.Body = comment.Body;
         commentsAsJson = JsonSerializer.Serialize(comments);
         await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(comments));
     }
@@ -63,7 +62,7 @@ public class CommentFileRepository:ICommentRepository
         string commentsAsJson=await File.ReadAllTextAsync(filePath);
         List<Comment> comments=JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
         Comment? getComment = comments.FirstOrDefault(x => x.ID == commentId);
-        if (getComment != null)
+        if (getComment == null)
         {
             throw new InvalidOperationException($"The comment with the id '{commentId}' does not exist.");
         }

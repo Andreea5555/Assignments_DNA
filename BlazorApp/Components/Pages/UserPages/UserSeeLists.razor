@@ -1,0 +1,72 @@
+﻿@page "/UserSeeList"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject IUserService UserService
+@rendermode InteractiveServer
+@inject NavigationManager NavMgr
+
+<h3>Here you can see all users and search after usernames</h3>
+<div>
+    <button @onclick="GetAllUsers">Show Users</button>
+    @foreach (var user in users)
+    {
+        <div class="user-box">
+            <label class="user-name" @onclick="() => ViewSingleUser(user.Id)">@user.UserName</label>
+        </div>
+    }
+    @if (!users.Any())
+    {
+        <label>There are no current users to display</label>
+    }
+
+</div>
+<div>
+    <label>Please give the letter or the word that the search is based on:</label>
+    <input type="text" @bind="usernameContains"/>
+    <button @onclick="GetAllUsersByString">Show users:</button>
+    @foreach (var user in users1)
+    {
+        <div class="user-box">
+            <label class="user-name" @onclick="() => ViewSingleUser(user.Id)">@user.UserName</label>
+        </div>
+    }
+    @if (!users1.Any())
+    {
+        <label>There are no current users to display</label>
+    }
+</div>
+
+@code {
+    private IEnumerable<UserDto> users = [];
+    private IEnumerable<UserDto> users1 = [];
+    private string usernameContains;
+
+    public async Task GetAllUsers()
+    {
+        try
+        {
+            users = await UserService.GetAllUsersAsync(null!);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    public async void GetAllUsersByString()
+    {
+        try
+        {
+            users1 = await UserService.GetAllUsersAsync(usernameContains);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    private void ViewSingleUser(int userId)
+    {
+        NavMgr.NavigateTo($"ViewSingleUser/{userId}");
+    }
+}

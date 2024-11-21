@@ -1,0 +1,30 @@
+﻿@page "/UpdateComment"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject ICommentService commentService
+@rendermode InteractiveServer
+
+<h3>Update a comment</h3>
+<div>
+    <label>Please give the new content of the comment and the id of the comment</label>
+    <input type="text" @bind="content"/>
+    <input type="number" @bind="commentId"/>
+    <button class="btn btn-primary" @onclick="CommentUpdate">Update Comment</button>
+</div>
+@code {
+    private string content;
+    private int commentId;
+
+    public async void CommentUpdate()
+    {
+        CreateCommentDto comment1 = await commentService.GetSingleCommentAsync(commentId);
+        CreateCommentDto comment = new CreateCommentDto()
+        {
+            Body = content,
+            PostID = comment1.PostID,
+            UserID = comment1.UserID
+        };
+        await commentService.UpdateCommentAsync(comment);
+    }
+}

@@ -37,7 +37,7 @@ public class CommentsController: ControllerBase
     {
         Comment comment = new Comment(request.Body, request.PostID,request.UserID);
         await commentRepo.UpdateAsync(comment);
-        return Results.NoContent();
+        return Results.Ok();
     }
     
     [HttpDelete("{id}")]

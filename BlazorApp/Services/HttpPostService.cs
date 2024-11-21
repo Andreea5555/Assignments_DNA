@@ -12,7 +12,7 @@ public class HttpPostService:IPostService
     {
         _httpClient = client;
     }
-    public async Task<ActionResult<CreatePostDto>> CreatePostAsync(CreatePostDto request)
+    public async Task<CreatePostDto> CreatePostAsync(CreatePostDto request)
     {
         HttpResponseMessage httpResponse =
             await _httpClient.PostAsJsonAsync("posts", request);
@@ -26,40 +26,36 @@ public class HttpPostService:IPostService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> UpdatePostAsync(int id, CreatePostDto request)
+    public async Task UpdatePostAsync(int id, PostDto request)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("posts", request);
+            await _httpClient.PutAsJsonAsync($"posts/{id}", request);
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
 
-        JsonSerializer.Deserialize<CreatePostDto>(response,
+        JsonSerializer.Deserialize<PostDto>(response,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
     }
 
-    public async Task<IResult> DeletePostAsync(int id)
+    public async Task DeletePostAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("posts", id);
+            await _httpClient.DeleteAsync($"posts/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
-
-        JsonSerializer.Deserialize<CreatePostDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
+        
     }
 
-    public async Task<ActionResult<CreatePostDto>> GetSinglePostAsync(int id)
+    public async Task<CreatePostDto> GetSinglePostAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("posts", id);
+            await _httpClient.GetAsync($"posts/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -70,16 +66,16 @@ public class HttpPostService:IPostService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> GetAllPostsAsync(string title, int userID)
+    public async Task<IEnumerable<CreatePostDto>> GetAllPostsAsync(string title, int userID)
     {
         HttpResponseMessage httpResponse = null;
         if (!string.IsNullOrEmpty(title))
         { 
-            httpResponse= await _httpClient.PostAsJsonAsync("posts",title );
+            httpResponse= await _httpClient.GetAsync($"posts?title={title}");
         }
         else if (userID!=null)
         {
-            httpResponse= await _httpClient.PostAsJsonAsync("posts",userID );
+            httpResponse= await _httpClient.GetAsync($"posts?userid={userID}");
         }
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
@@ -87,8 +83,7 @@ public class HttpPostService:IPostService
             throw new Exception(response);
         }
 
-        JsonSerializer.Deserialize<CreatePostDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
+       return JsonSerializer.Deserialize<IEnumerable<CreatePostDto>>(response,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 }

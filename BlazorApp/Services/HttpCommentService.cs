@@ -12,7 +12,7 @@ public class HttpCommentService: ICommentService
     {
      _httpClient = client;   
     }
-    public async Task<ActionResult<CreateCommentDto>> CreateCommentAsync(CreateCommentDto request)
+    public async Task<CreateCommentDto> CreateCommentAsync(CreateCommentDto request)
     {
         HttpResponseMessage httpResponse =
             await _httpClient.PostAsJsonAsync("comments", request);
@@ -26,7 +26,7 @@ public class HttpCommentService: ICommentService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> DeleteCommentAsync(int id)
+    public async Task DeleteCommentAsync(int id)
     {
         HttpResponseMessage httpResponse =
             await _httpClient.PostAsJsonAsync("comments", id);
@@ -38,13 +38,12 @@ public class HttpCommentService: ICommentService
 
         JsonSerializer.Deserialize<CreateCommentDto>(response,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
     }
 
-    public async Task<IResult> UpdateCommentAsync(CreateCommentDto request)
+    public async Task UpdateCommentAsync(CreateCommentDto request)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("comments",request);
+            await _httpClient.PutAsJsonAsync("comments", request);
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -53,13 +52,12 @@ public class HttpCommentService: ICommentService
 
         JsonSerializer.Deserialize<CreateCommentDto>(response,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
     }
 
-    public async Task<ActionResult<CreateCommentDto>> GetSingleCommentAsync(int id)
+    public async Task<CreateCommentDto> GetSingleCommentAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("comments", id);
+            await _httpClient.GetAsync($"comments/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -70,7 +68,7 @@ public class HttpCommentService: ICommentService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IResult> GetAllCommentsAsync(int userID, int postID)
+    public async Task<IEnumerable<CreateCommentDto>> GetAllCommentsAsync(int userID, int postID)
     {
         HttpResponseMessage httpResponse = null;
         if (userID != null)
@@ -88,8 +86,8 @@ public class HttpCommentService: ICommentService
             throw new Exception(response);
         }
 
-        JsonSerializer.Deserialize<CreateCommentDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        return Results.NoContent();
+        return JsonSerializer.Deserialize<IEnumerable<CreateCommentDto>>(response,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        
     }
 }

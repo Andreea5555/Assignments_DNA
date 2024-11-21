@@ -43,17 +43,23 @@ public class UsersController : ControllerBase
     public async Task<IResult> UpdateUser([FromRoute] int id,[FromBody]
         CreateUserDto request)
     {
+        if (await userRepo.GetUserByUsernameAsync(request.UserName) != null)
+        {
+            return Results.BadRequest($"Username {request.UserName} is already taken");
+        }
         User user = new User(request.UserName, request.Password);
+        user.ID = id;
         await userRepo.UpdateAsync(id, user);
-        return Results.NoContent();
+        return Results.Json(user);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IResult> DeleteUser([FromBody] int id)
+    public async Task<IResult> DeleteUser([FromRoute] int id)
     {
         await userRepo.DeleteAsync(id);
-        return Results.NoContent();
+        return Results.Ok();
     }
+    
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetSingleUser([FromRoute] int id)
