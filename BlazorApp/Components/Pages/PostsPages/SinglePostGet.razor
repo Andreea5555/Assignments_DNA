@@ -9,7 +9,7 @@
 <div>
     <label>Please give the id of the post you would like to get:</label>
     <input type="number" @bind="postId" />
-    <button class="user-name" @onclick="GetSingleUser">Get User</button>
+    <button class="user-name" @onclick="GetSinglePost">Get Post</button>
     @if(post!=null){
     <div class="post-box">
         <label class="post-title">@post.Title</label>
@@ -20,7 +20,7 @@
     private int postId;
     private CreatePostDto post;
 
-    public async void GetSingleUser()
+    public async void GetSinglePost()
     {
         post= await postService.GetSinglePostAsync(postId);
     }

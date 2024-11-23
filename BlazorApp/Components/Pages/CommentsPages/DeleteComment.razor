@@ -1,0 +1,21 @@
+﻿@page "/DeleteComment"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject ICommentService commentService
+@rendermode InteractiveServer
+
+<h3>Delete a Comment</h3>
+<div>
+    <label>Please give the id of the comment you would like to delete</label>
+    <input type="number" @bind="commentId"/>
+    <button class="btn btn-primary"  @onclick="CommentDelete">Delete</button>
+</div>
+@code {
+    private int commentId;
+
+    public async void CommentDelete()
+    {
+        await commentService.DeleteCommentAsync(commentId);
+    }
+}

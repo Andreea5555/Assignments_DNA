@@ -1,0 +1,48 @@
+﻿@page "/GetComments"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject ICommentService commentService
+@rendermode InteractiveServer
+@inject NavigationManager NavMgr
+
+<h3>Get all Comments</h3>
+<div>
+    <label>Please give a post id or an user id on which you would like to get all the comments</label>
+    <input placeholder="post id" type="number" @bind="postId"/>
+    <input placeholder="user id" type="number" @bind="userId"/>
+    <button @onclick="GetAllComments">Show Comments</button>
+    @foreach (var comment in comments)
+    {
+        <div class="comment-box">
+            <label class="comment-name" @onclick="() => ViewSingleComment(comment.Id)">@comment.Body</label>
+        </div>
+    }
+    @if (!comments.Any())
+    {
+        <label>There are no current comments to display</label>
+    }
+</div>
+
+@code {
+    private int? postId;
+    private int? userId;
+    private IEnumerable<CreateCommentDto> comments = [];
+
+    public async void GetAllComments()
+    {
+        try
+        {
+            comments = await commentService.GetAllCommentsAsync(userId, postId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    
+    private void ViewSingleComment(int commentId)
+    {
+        NavMgr.NavigateTo($"ViewSingleUser/{commentId}");
+    }
+}

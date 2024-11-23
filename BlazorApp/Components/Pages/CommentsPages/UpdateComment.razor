@@ -18,13 +18,10 @@
 
     public async void CommentUpdate()
     {
-        CreateCommentDto comment1 = await commentService.GetSingleCommentAsync(commentId);
         CreateCommentDto comment = new CreateCommentDto()
         {
-            Body = content,
-            PostID = comment1.PostID,
-            UserID = comment1.UserID
+            Body = content
         };
-        await commentService.UpdateCommentAsync(comment);
+        await commentService.UpdateCommentAsync(commentId,comment);
     }
 }

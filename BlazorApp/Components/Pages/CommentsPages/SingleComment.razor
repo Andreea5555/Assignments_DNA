@@ -1,0 +1,27 @@
+﻿@page "/SingleComment"
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components
+@using DTOs
+@inject ICommentService commentService
+@rendermode InteractiveServer
+
+<h3>Get a single comment</h3>
+<div>
+    <label>Please give the id of the comment you would like to get:</label>
+    <input type="number" @bind="commentId" />
+    <button class="user-name" @onclick="GetSingleComment">Get Comment</button>
+    @if(comment!=null){
+        <div class="comment-box">
+            <label class="comment-title">@comment.Body</label>
+        </div>
+    }
+</div>
+@code {
+    private int commentId;
+    private CreateCommentDto comment;
+
+    public async void GetSingleComment()
+    {
+        comment = await commentService.GetSingleCommentAsync(commentId);
+    }
+}

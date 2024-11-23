@@ -33,27 +33,28 @@ public class CommentsController: ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<IResult> UpdateComment([FromBody] CreateCommentDto request)
+    public async Task<IResult> UpdateComment([FromRoute] int id,[FromBody] CreateCommentDto request)
     {
-        Comment comment = new Comment(request.Body, request.PostID,request.UserID);
+        Comment comment=new Comment(request.Body,request.PostID,request.UserID);
+        comment.ID = id;
         await commentRepo.UpdateAsync(comment);
-        return Results.Ok();
+        return Results.Ok(comment);
     }
     
     [HttpDelete("{id}")]
-    public async Task<IResult> DeleteComment( [FromBody] int commentId)
+    public async Task<IResult> DeleteComment( [FromRoute] int id)
     {
-        await commentRepo.DeleteAsync(commentId);
-        return Results.NoContent();
+        await commentRepo.DeleteAsync(id);
+        return Results.Ok();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<CreateCommentDto>> GetSingleAsync(
-        [FromRoute] int commentId)
+        [FromRoute] int id)
     {
         try
         {
-            Comment result = await commentRepo.GetSingleAsync(commentId);
+            Comment result = await commentRepo.GetSingleAsync(id);
             return Ok(result);
         }
         catch (Exception e)
@@ -63,9 +64,9 @@ public class CommentsController: ControllerBase
         }
     }
     
-    [HttpGet("userId/postId")]
+    [HttpGet("")]
     public async Task<IResult> GetAllComments([FromQuery] int? userId,
-        int? postId)
+       [FromQuery] int? postId)
     {
         List<Comment> comments = commentRepo.GetAll();
         if (userId != null)

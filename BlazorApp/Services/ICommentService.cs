@@ -7,7 +7,8 @@ public interface ICommentService
 {
     public Task<CreateCommentDto> CreateCommentAsync(CreateCommentDto request);
     public Task DeleteCommentAsync(int id);
-    public Task UpdateCommentAsync( CreateCommentDto request);
+    public Task UpdateCommentAsync(int id, CreateCommentDto request);
     public Task<CreateCommentDto> GetSingleCommentAsync(int id);
-    public Task<IEnumerable<CreateCommentDto>> GetAllCommentsAsync(int userID, int postID);
+    public Task<IEnumerable<CreateCommentDto>> GetAllCommentsAsync(int? userID,
+        int? postID);
 }

@@ -35,12 +35,12 @@ public class CommentFileRepository:ICommentRepository
         Comment? existingComment = comments.FirstOrDefault(x => x.ID == comment.ID);
         if (existingComment == null)
         {
-            throw new InvalidOperationException($"The comment with the id '{comment.ID}' does not exist.'");
+            throw new InvalidOperationException($"The comment with the id {comment.ID} does not exist.");
         }
 
         existingComment.Body = comment.Body;
         commentsAsJson = JsonSerializer.Serialize(comments);
-        await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(comments));
+        await File.WriteAllTextAsync(filePath, commentsAsJson);
     }
 
     public async Task DeleteAsync(int commentId)
@@ -48,13 +48,13 @@ public class CommentFileRepository:ICommentRepository
         string commentsAsJson=await File.ReadAllTextAsync(filePath);
         List<Comment> comments=JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
         Comment? deletedcomment = comments.FirstOrDefault(x => x.ID == commentId);
-        if (deletedcomment != null)
+        if (deletedcomment == null)
         {
             throw new InvalidOperationException($"The comment with the id '{commentId}' does not exist.");
         }
         comments.Remove(deletedcomment);
         commentsAsJson = JsonSerializer.Serialize(comments);
-        await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(comments));
+        await File.WriteAllTextAsync(filePath, commentsAsJson);
     }
 
     public async Task<Comment> GetSingleAsync(int commentId)

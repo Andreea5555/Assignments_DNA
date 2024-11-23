@@ -29,21 +29,18 @@ public class HttpCommentService: ICommentService
     public async Task DeleteCommentAsync(int id)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PostAsJsonAsync("comments", id);
+            await _httpClient.DeleteAsync($"comments/{id}");
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         }
-
-        JsonSerializer.Deserialize<CreateCommentDto>(response,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
     }
 
-    public async Task UpdateCommentAsync(CreateCommentDto request)
+    public async Task UpdateCommentAsync(int id,CreateCommentDto request)
     {
         HttpResponseMessage httpResponse =
-            await _httpClient.PutAsJsonAsync("comments", request);
+            await _httpClient.PutAsJsonAsync($"comments/{id}", request);
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -68,16 +65,17 @@ public class HttpCommentService: ICommentService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    public async Task<IEnumerable<CreateCommentDto>> GetAllCommentsAsync(int userID, int postID)
+    public async Task<IEnumerable<CreateCommentDto>> GetAllCommentsAsync(
+        int? userID, int? postID)
     {
         HttpResponseMessage httpResponse = null;
         if (userID != null)
         {
-           httpResponse= await _httpClient.PostAsJsonAsync("comments", userID);   
+            httpResponse = await _httpClient.GetAsync($"comments?userID={userID}");
         }
         else if (postID != null)
         {
-            httpResponse= await _httpClient.PostAsJsonAsync("comments", postID);   
+            httpResponse= await _httpClient.GetAsync($"comments?postID={postID}");   
         }
             
         string response = await httpResponse.Content.ReadAsStringAsync();
